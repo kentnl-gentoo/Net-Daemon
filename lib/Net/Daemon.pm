@@ -29,6 +29,7 @@ use IO::Socket ();
 use Config ();
 use Net::Daemon::Log ();
 use POSIX ();
+use File::Spec ();
 
 
 package Net::Daemon;
@@ -201,7 +202,7 @@ sub ReadConfigFile {
     if (! -f $file) {
 	$self->Fatal("No such config file: $file");
     }
-    my $copts = do $file;
+    my $copts = do File::Spec->rel2abs($file);
     if ($@) {
 	$self->Fatal("Error while processing config file $file: $@");
     }
